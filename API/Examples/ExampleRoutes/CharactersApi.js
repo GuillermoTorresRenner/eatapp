@@ -3,9 +3,9 @@ import { token } from "morgan";
 const router = express.Router();
 const multer = require("multer");
 import path from "path";
-import { verificarAuth } from "../middlewares/autenticacion";
+import { verificarAuth } from "../../middlewares/autenticacion";
 const { v4: uuidv4 } = require("uuid");
-import CharacterModel from "../Examples/ExampleModels/CharactersModel";
+import CharacterModel from "../ExampleModels/CharactersModel";
 const fs = require("fs");
 
 const storage = multer.diskStorage({

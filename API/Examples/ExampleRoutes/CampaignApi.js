@@ -2,7 +2,7 @@ import express from "express";
 import { token } from "morgan";
 const router = express.Router();
 import path from "path";
-import { verificarAuth } from "../middlewares/autenticacion";
+import { verificarAuth } from "../../middlewares/autenticacion";
 import CampaignModel from "../models/CampaignModel";
 
 // Agregar una Campaña

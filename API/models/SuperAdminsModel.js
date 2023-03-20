@@ -25,7 +25,8 @@ const superAdminsSchema = new Schema({
 
 // Apply the uniqueValidator plugin to userSchema.
 superAdminsSchema.plugin(uniqueValidator, {
-  message: "Error, Ya existe un trabajador registrado con el rut: {PATH}.",
+  message:
+    "Error, Ya existe un Super Administrador: registrado con el rut: {PATH}.",
 });
 
 //Ocultación de pass para no retornarlo a la vista

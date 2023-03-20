@@ -9,10 +9,6 @@ UserModel por el nombre apropiado, el cual debe coincidir con el nombre de éste
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const uniqueValidator = require("mongoose-unique-validator"); //inclusion del plugin de validación unico
-const permissions = {
-  values: ["CREATE", "READ", "UPDATE", "DELETE"],
-  message: "{VALUE} rol no valido",
-};
 
 const adminsSchema = new Schema({
   rut: { type: String, unique: true, required: [true, "RUT obligatorio"] },
@@ -22,24 +18,21 @@ const adminsSchema = new Schema({
   password: { type: String, required: [true, "password obligatorio"] },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
-  startDate: { type: Date, required: [true, "fecha de inicio obligatoria"] },
-  endingDate: {
-    type: Date,
-    required: [true, "fecha de finalización obligatoria"],
-  },
+
   role: { type: String, default: "ADMIN" /*enum: roles*/ },
-  permissions: [
-    {
-      permisson: { type: String, enum: permissions, default: "READ" },
-    },
-  ],
-  state: { type: Boolean, default: false },
-  consumos: [], //Modificar cuado se defina de forma efectiva cómo se realizará la dinámica de consumos
+  permissions: {
+    create: { type: Boolean, default: false },
+    read: { type: Boolean, default: true },
+    update: { type: Boolean, default: false },
+    delete: { type: Boolean, default: false },
+  },
+
+  state: { type: Boolean, default: true },
 });
 
 // Apply the uniqueValidator plugin to userSchema.
 adminsSchema.plugin(uniqueValidator, {
-  message: "Error, Ya existe un Administrador registrado con el rut: {PATH}.",
+  message: "Error, Ya existe un Administrador registrado con el rut: {VALUE}.",
 });
 
 //Ocultación de pass para no retornarlo a la vista
