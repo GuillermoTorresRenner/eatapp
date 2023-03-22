@@ -3,7 +3,7 @@ import {
   verificarAuth,
   verificarAdministador,
 } from "../middlewares/autenticacion"; //importamos el middleware para verificar
-import AdminsModel from "../models/AdminsModel ";
+import AdminsModel from "../models/AdministratorsModel";
 const router = express.Router();
 // importaciones para encriptacion de pass
 const bcrypt = require("bcrypt");
@@ -18,7 +18,11 @@ router.post("/create-admin", async (req, res) => {
   body.password = bcrypt.hashSync(req.body.password, saltRounds);
   try {
     const createAdmin = await AdminsModel.create(body);
-    res.status(200).json(createAdmin);
+    res
+      .status(200)
+      .json(
+        `Usuario ${createAdmin.role}: ${createAdmin.firstName} ${createAdmin.lastName} creado correctamente.`
+      );
   } catch (error) {
     return res.status(500).json({
       message: "Ocurrio un error al crear un nuevo administrador",

@@ -12,9 +12,9 @@ const uniqueValidator = require("mongoose-unique-validator"); //inclusion del pl
 
 const companiesSchema = new Schema({
   rut: { type: String, unique: true, required: [true, "RUT obligatorio"] },
-  firstName: { type: String, required: [true, "nombre obligatorio"] },
-  secondName: { type: String },
-  lastName: { type: String, required: [true, "nombre obligatorio"] },
+  companyName: { type: String, required: [true, "nombre obligatorio"] },
+  location: { type: String },
+
   password: { type: String, required: [true, "password obligatorio"] },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
@@ -24,14 +24,13 @@ const companiesSchema = new Schema({
     required: [true, "fecha de finalización obligatoria"],
   },
   role: { type: String, default: "COMPANY" /*enum: roles*/ },
-
   state: { type: Boolean, default: false },
-  consumos: [], //Modificar cuado se defina de forma efectiva cómo se realizará la dinámica de consumos
+  services: [], //Modificar cuado se defina de forma efectiva cómo se realizará la dinámica de consumos
 });
 
 // Apply the uniqueValidator plugin to userSchema.
 companiesSchema.plugin(uniqueValidator, {
-  message: "Error, Ya existe una Empresa registrado con el rut: {PATH}.",
+  message: "Error, Ya existe una Empresa registrado con el rut: {VALUE}.",
 });
 
 //Ocultación de pass para no retornarlo a la vista

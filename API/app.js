@@ -29,8 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/login", require("./routes/LoginApi"));
-app.use("/api/super-admin", require("./routes/SuperAdminAPI"));
-app.use("/api/admin", require("./routes/AdminAPI"));
+app.use("/api/super-admin", require("./routes/AdministratorsApi"));
 app.use("/api/company", require("./routes/CompanyAPI"));
 app.use("/api/diner", require("./routes/DinerAPI"));
 

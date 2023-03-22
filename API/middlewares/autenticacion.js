@@ -23,39 +23,47 @@ los datos del id del usr de esta forma:
 
 */
 
-const jwt = require('jsonwebtoken'); //Lo impotamos para verificar los tokens y verificar posteriormente las peticiones
+const jwt = require("jsonwebtoken"); //Lo impotamos para verificar los tokens y verificar posteriormente las peticiones
 
-const verificarAuth=(req,res,next)=>{
-    const token=req.get("token"); //solicitamos el header de la petición donde inclimos el JWT
-    jwt.verify(token,"constraseñaUltrasecreta",(error,decoded)=>{
-        if (error) {
-          return  res.status(400).json({
-                mensaje: 'Usuario no válido',
-                error
-              });
-            
-        }
+const verifyAuth = (req, res, next) => {
+  const token = req.get("token"); //solicitamos el header de la petición donde inclimos el JWT
+  jwt.verify(token, "constraseñaUltrasecreta", (error, decoded) => {
+    if (error) {
+      return res.status(400).json({
+        mensaje: "Usuario no válido",
+        error,
+      });
+    }
 
-        //Obtenemos información del usuario para poder filtrar por roles en la función verificar administrador
-        req.usuario=decoded.data;
-        
+    //Obtenemos información del usuario para poder filtrar por roles en la función verificar administrador
+    req.usuario = decoded.data;
 
-        next();
-
-    });
+    next();
+  });
 };
 
-const verificarAdministador=(req, res, next)=>{
-  const role=req.usuario.role;
+const verifyAdmin = (req, res, next) => {
+  const role = req.usuario.role;
 
-  if (role==="ADMIN") {
+  if (role === "ADMIN") {
     next();
-  }else{
+  } else {
     return res.status(401).json({
-      message:"Usuario no Administrador"
-    })
-
+      message: "Usuario sin permisos de Administrador",
+    });
   }
-}
+};
 
-module.exports = {verificarAuth, verificarAdministador};
+const verifySupervisor = (req, res, next) => {
+  const role = req.usuario.role;
+
+  if (role === "SUPERVISOR") {
+    next();
+  } else {
+    return res.status(401).json({
+      message: "Usuario sin permisos de Supervisor",
+    });
+  }
+};
+
+module.exports = { verifyAdmin, verifyAuth, verifySupervisor };
